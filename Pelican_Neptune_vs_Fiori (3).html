@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neptune DXP vs. SAP Fiori — Decision Framework for Pelican Products</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --burgundy: #38112A;
+    --burg-mid: #5a1f42;
+    --orange: #FF9E33;
+    --peach: #FFBF96;
+    --lpeach: #FFDBC4;
+    --purple: #B296FF;
+    --lpurple: #E1D6FF;
+    --grey: #DFDDD2;
+    --lgrey: #F4F2EE;
+    --bpurple: #5128BF;
+    --white: #FFFFFF;
+    --ink: #1A1A1A;
+    --muted: #666666;
+    --good: #1B5E20;
+    --good-bg: #E8F5E9;
+    --warn: #B35A00;
+    --warn-bg: #FFF3E0;
+    --row-alt: #FAF8F6;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--lgrey);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--burgundy);
+    padding: 52px 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; top:-60px; right:-60px;
+    width:320px; height:320px; border-radius:50%;
+    border:1px solid rgba(255,255,255,0.06); pointer-events:none;
+  }
+  .hero::after {
+    content:''; position:absolute; bottom:-80px; right:120px;
+    width:200px; height:200px; border-radius:50%;
+    border:1px solid rgba(255,255,255,0.04); pointer-events:none;
+  }
+  .hero-inner {
+    max-width:960px; margin:0 auto; padding:0 40px 44px;
+    position:relative; z-index:1;
+  }
+  .hero-eyebrow {
+    font-size:10px; font-weight:700; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--peach); margin-bottom:14px;
+  }
+  .hero h1 {
+    font-size:34px; font-weight:800; color:var(--white);
+    line-height:1.15; margin-bottom:14px; max-width:640px;
+  }
+  .hero h1 em { font-style:normal; color:var(--peach); }
+  .hero-sub {
+    font-size:14px; color:rgba(255,255,255,0.65);
+    max-width:580px; line-height:1.7; margin-bottom:36px;
+  }
+  .hero-meta {
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:0; border-top:1px solid rgba(255,255,255,0.1);
+    padding-top:0;
+  }
+  .hero-meta-item {
+    padding:16px 0 16px;
+    border-right:1px solid rgba(255,255,255,0.08);
+    padding-right:16px; padding-left:0;
+  }
+  .hero-meta-item:last-child { border-right:none; }
+  .hero-meta-item .mlabel {
+    font-size:9px; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; color:rgba(255,255,255,0.4);
+    margin-bottom:4px;
+  }
+  .hero-meta-item .mval {
+    font-size:12px; color:rgba(255,255,255,0.85); line-height:1.4;
+  }
+
+  /* ── LAYOUT ── */
+  .page { max-width:960px; margin:0 auto; padding:0 40px; }
+
+  /* ── SECTION ── */
+  .section { padding:44px 0 40px; }
+  .section + .section { border-top:1px solid #E8E4DE; }
+  .section-eyebrow {
+    font-size:9px; font-weight:700; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--bpurple); margin-bottom:8px;
+  }
+  .section-title {
+    font-size:22px; font-weight:800; color:var(--burgundy);
+    line-height:1.2; margin-bottom:8px;
+  }
+  .section-intro {
+    font-size:13.5px; color:var(--muted);
+    max-width:680px; line-height:1.7; margin-bottom:28px;
+  }
+
+  /* ── CALLOUT DARK ── */
+  .callout-dark {
+    background:var(--burgundy); border-radius:10px;
+    padding:22px 28px; margin-bottom:20px;
+  }
+  .callout-dark p {
+    font-size:14px; line-height:1.75; color:rgba(255,255,255,0.88);
+  }
+  .callout-dark strong { color:var(--peach); font-weight:600; }
+
+  /* ── FRAME BOX ── */
+  .frame-box {
+    background:var(--lpeach); border-left:4px solid var(--burgundy);
+    border-radius:0 8px 8px 0; padding:16px 20px; margin-bottom:20px;
+  }
+  .frame-box .flabel {
+    font-size:9px; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--burgundy); margin-bottom:6px;
+  }
+  .frame-box p { font-size:13px; color:#3a1f10; line-height:1.65; }
+
+  /* ── TABLES ── */
+  .dt {
+    width:100%; border-collapse:collapse;
+    margin-bottom:20px; font-size:13px;
+    border-radius:8px; overflow:hidden;
+    box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  }
+  .dt thead tr { background:var(--burgundy); }
+  .dt thead th {
+    padding:11px 14px; text-align:left;
+    font-size:11px; font-weight:700;
+    letter-spacing:.02em; color:var(--white);
+  }
+  .dt tbody tr:nth-child(odd)  { background:var(--white); }
+  .dt tbody tr:nth-child(even) { background:var(--row-alt); }
+  .dt tbody tr:hover { background:var(--lpeach); }
+  .dt td {
+    padding:10px 14px; vertical-align:top;
+    border-bottom:1px solid #ede9e3; line-height:1.5;
+  }
+  .dt td.rlab {
+    font-weight:700; color:var(--burgundy);
+    font-size:12px; width:20%;
+  }
+  .dt td.fiori { color:#6b4040; }
+  .dt td.neptune { color:#1e4a1e; }
+  .dt tr.total-row td {
+    background:var(--burgundy) !important;
+    color:var(--white); font-weight:700;
+  }
+  .dt tr.total-row td.peach-val { color:var(--peach); font-size:15px; }
+
+  .tick  { color:#2e7d32; font-weight:700; }
+  .cross { color:#c62828; }
+  .part  { color:#e65100; }
+  .pill-good { display:inline-block; background:var(--good-bg); color:var(--good);
+    font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; }
+  .pill-warn { display:inline-block; background:var(--warn-bg); color:var(--warn);
+    font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; }
+
+  /* ── COST GRID ── */
+  .cost-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+  .cost-card {
+    background:var(--white); border:1px solid #e0dbd4;
+    border-radius:10px; overflow:hidden;
+  }
+  .cost-card-header {
+    padding:12px 16px; font-size:12px; font-weight:700; color:var(--white);
+  }
+  .cost-card-header.fiori { background:#8b2222; }
+  .cost-card-header.neptune { background:var(--burgundy); }
+  .cost-card-body { padding:4px 0; }
+  .cost-row {
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:8px 16px; font-size:12.5px;
+    border-bottom:1px solid #f0ece6;
+  }
+  .cost-row:last-child { border-bottom:none; }
+  .cost-row .cl { color:var(--muted); }
+  .cost-row .cv { font-weight:600; }
+  .cost-total {
+    margin:0 12px 12px; padding:10px 12px;
+    border-radius:6px; display:flex;
+    justify-content:space-between; align-items:center;
+    font-weight:700; font-size:13px;
+  }
+  .cost-total.fiori { background:#fdf0f0; color:#8b2222; }
+  .cost-total.neptune { background:#f0f5f0; color:var(--good); }
+
+  /* ── BTP COST HIGHLIGHT ── */
+  .btp-highlight {
+    background:var(--lpurple); border-radius:10px;
+    padding:20px 24px; margin-bottom:20px;
+    display:flex; align-items:center; gap:24px;
+  }
+  .btp-highlight .big-num {
+    font-size:36px; font-weight:800; color:var(--burgundy);
+    line-height:1; white-space:nowrap;
+  }
+  .btp-highlight .big-sub {
+    font-size:11px; color:var(--muted); margin-top:4px;
+  }
+  .btp-highlight .btp-desc {
+    font-size:13px; color:var(--ink); line-height:1.6;
+  }
+  .btp-highlight .btp-desc strong { color:var(--burgundy); }
+
+  /* ── SPEED CALLOUT ── */
+  .speed-compare {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:16px; margin-bottom:20px;
+  }
+  .speed-card {
+    border-radius:10px; padding:20px;
+    border:1px solid #e0dbd4;
+  }
+  .speed-card.fiori-s { background:var(--white); border-top:3px solid #b09090; }
+  .speed-card.neptune-s { background:var(--white); border-top:3px solid var(--burgundy); }
+  .speed-card h4 { font-size:12px; font-weight:700; color:var(--burgundy); margin-bottom:12px; }
+  .speed-phase {
+    display:flex; gap:10px; padding:7px 0;
+    border-bottom:1px solid var(--grey); font-size:12px;
+  }
+  .speed-phase:last-child { border-bottom:none; }
+  .speed-phase .ph-label { color:var(--muted); width:120px; flex-shrink:0; }
+  .speed-phase .ph-val { color:var(--ink); font-weight:500; }
+  .speed-total {
+    margin-top:12px; padding:10px 12px; border-radius:6px;
+    font-size:13px; font-weight:700; text-align:center;
+  }
+  .speed-total.slow { background:#fdf0f0; color:#8b2222; }
+  .speed-total.fast { background:var(--good-bg); color:var(--good); }
+
+  /* ── SCENARIOS ── */
+  .scenario {
+    background:var(--white); border:1px solid #e0dbd4;
+    border-radius:10px; overflow:hidden; margin-bottom:12px;
+  }
+  .scenario-head {
+    background:var(--lpurple); padding:12px 18px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .scenario-head .slabel {
+    font-size:9px; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--bpurple);
+  }
+  .scenario-head h4 { font-size:13px; font-weight:700; color:var(--burgundy); }
+  .scenario-body { padding:14px 18px; }
+  .scenario-body p { font-size:13px; color:#444; line-height:1.65; margin-bottom:10px; }
+  .verdict {
+    padding:10px 14px; border-radius:6px;
+    font-size:12.5px; font-weight:600; line-height:1.4;
+  }
+  .verdict.v-fiori { background:var(--good-bg); color:var(--good); }
+  .verdict.v-neptune { background:var(--lpurple); color:var(--bpurple); }
+  .verdict.v-both { background:var(--lpeach); color:#5a2800; }
+
+  /* ── DIFFERENTIATORS ── */
+  .diff-grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:12px; margin-bottom:20px;
+  }
+  .diff-card {
+    background:var(--white); border:1px solid #e0dbd4;
+    border-radius:10px; padding:18px;
+  }
+  .diff-num { font-size:24px; font-weight:800; color:var(--grey); line-height:1; margin-bottom:8px; }
+  .diff-card h4 { font-size:12px; font-weight:700; color:var(--burgundy); margin-bottom:6px; }
+  .diff-card p { font-size:12px; color:var(--muted); line-height:1.55; }
+
+  /* ── PROOF ── */
+  .proof-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+  .proof-card {
+    background:var(--white); border:1px solid #e0dbd4;
+    border-radius:10px; padding:18px 20px;
+  }
+  .proof-sector {
+    font-size:9px; font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--bpurple); margin-bottom:6px;
+  }
+  .proof-card h4 { font-size:12.5px; font-weight:700; color:var(--burgundy); margin-bottom:10px; }
+  .proof-card ul { list-style:none; }
+  .proof-card ul li {
+    font-size:12px; color:#444; padding:4px 0 4px 16px;
+    position:relative; border-bottom:1px solid var(--grey); line-height:1.45;
+  }
+  .proof-card ul li:last-child { border-bottom:none; }
+  .proof-card ul li::before { content:'→'; position:absolute; left:0; color:var(--burgundy); font-size:10px; top:6px; }
+
+  /* ── EVAL STEPS ── */
+  .eval-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+  .eval-step {
+    background:var(--burgundy); border-radius:10px; padding:20px;
+  }
+  .eval-num { font-size:24px; font-weight:800; color:rgba(255,255,255,0.15); line-height:1; margin-bottom:8px; }
+  .eval-step h4 { font-size:12px; font-weight:700; color:var(--peach); margin-bottom:6px; }
+  .eval-step p { font-size:12px; color:rgba(255,255,255,0.65); line-height:1.55; }
+
+  /* ── CAVEAT ── */
+  .caveat {
+    background:var(--lpurple); border-radius:8px;
+    padding:16px 20px; margin-bottom:20px; font-size:13px;
+    color:var(--ink); line-height:1.65;
+  }
+  .caveat strong { color:var(--burgundy); }
+
+  /* ── FOOTER ── */
+  footer {
+    background:var(--burgundy); color:rgba(255,255,255,0.55);
+    padding:28px 40px; margin-top:8px;
+  }
+  .footer-inner {
+    max-width:960px; margin:0 auto;
+    display:flex; justify-content:space-between;
+    align-items:flex-start; flex-wrap:wrap; gap:20px;
+    font-size:12px; line-height:1.7;
+  }
+  .footer-inner strong { color:var(--white); display:block; }
+
+  @media(max-width:680px){
+    .hero-meta { grid-template-columns:1fr 1fr; }
+    .cost-grid,.speed-compare,.diff-grid,.proof-grid,.eval-grid { grid-template-columns:1fr; }
+    .btp-highlight { flex-direction:column; gap:12px; }
+    .page { padding:0 20px; }
+    .hero-inner { padding:0 20px 36px; }
+    footer { padding:24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Neptune Software · Pelican Products</div>
+    <h1>Neptune DXP vs. <em>SAP Fiori</em><br>A Decision Framework</h1>
+    <p class="hero-sub">A structured, objective analysis to support Pelican's platform evaluation — grounded in your ECC environment, EHP8 timeline, and production confirmation use case.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="mlabel">Use Case</div>
+        <div class="mval">Production Confirmation<br>Modernisation (ZPP_CONF2)</div>
+      </div>
+      <div class="hero-meta-item" style="padding-left:20px;">
+        <div class="mlabel">Environment</div>
+        <div class="mval">SAP ECC<br>EHP8 in progress</div>
+      </div>
+      <div class="hero-meta-item" style="padding-left:20px;">
+        <div class="mlabel">Scope</div>
+        <div class="mval">~300 operators<br>Global manufacturing sites</div>
+      </div>
+      <div class="hero-meta-item" style="padding-left:20px;">
+        <div class="mlabel">Prepared</div>
+        <div class="mval">June 2026<br>Neptune Software</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- THE RIGHT QUESTION -->
+<div class="section">
+  <div class="section-eyebrow">Starting Point</div>
+  <div class="section-title">The Right Question to Ask</div>
+  <p class="section-intro">When EHP8 completes, Fiori becomes technically available at no additional licensing cost. That is a fair and important observation. This document addresses it directly.</p>
+
+  <div class="callout-dark">
+    <p>The comparison is not <strong>Fiori licence cost vs. Neptune licence cost</strong>. That framing is incomplete. The real question is: <strong>what does it actually cost to solve the production confirmation problem</strong> — including development, implementation, maintenance, upgrade risk, and time to value — using each approach?</p>
+  </div>
+
+  <div class="frame-box">
+    <div class="flabel">The Specific Problem</div>
+    <p>Operators are bypassing ZPP_CONF2 and reverting to CO11N. Labor and production actuals are not captured consistently. Supervisors spend approximately 1 FTE per site on variance correction every month. The experience needs to be simpler, mobile-ready, and consistent across global manufacturing sites with localisation requirements. This is a custom, operator-facing, mobile workflow — and that context matters when evaluating platform fit.</p>
+  </div>
+</div>
+
+<!-- WHAT EHP8 UNLOCKS -->
+<div class="section">
+  <div class="section-eyebrow">Understanding the Landscape</div>
+  <div class="section-title">What EHP8 Unlocks — and What It Doesn't</div>
+  <p class="section-intro">EHP8 is a prerequisite for Fiori, not a ready-made solution.</p>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th style="width:22%">Capability</th>
+        <th style="width:36%">What EHP8 Provides</th>
+        <th style="width:42%">What Still Requires Work</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="rlab">Fiori Launchpad</td>
+        <td>Available with Fiori Front-End Server</td>
+        <td>BASIS activation, role and catalogue configuration</td>
+      </tr>
+      <tr>
+        <td class="rlab">Standard Fiori Apps</td>
+        <td>Pre-delivered by SAP, activated via config</td>
+        <td>Gap assessment vs. ZPP_CONF2 required — standard apps unlikely to match your custom process</td>
+      </tr>
+      <tr>
+        <td class="rlab">Custom Production Confirmation UX</td>
+        <td><strong style="color:#b35a00">Not included</strong> — requires custom development regardless of EHP8 status</td>
+        <td>ABAP/OData developer + UI5 frontend + SDK specialist + hand-coded XML and JS. EHP8 widens the range of standard apps available but the standard Fiori app does not meet ZPP_CONF2 requirements.</td>
+      </tr>
+      <tr>
+        <td class="rlab">Advanced Mobile Capabilities</td>
+        <td>Browser-based Fiori apps run without additional services. However, advanced capabilities — offline, native device integration, push notifications, managed app deployment — <strong style="color:#b35a00">require SAP Mobile Services or another mobile framework</strong>, both of which carry additional cost and complexity.</td>
+        <td>Neptune's mobile container includes offline, device integration, and managed deployment out of the box — no additional framework required.</td>
+      </tr>
+      <tr>
+        <td class="rlab">Offline Capability</td>
+        <td><strong style="color:#b35a00">Not native in Fiori</strong> — requires Mobile Development Kit (MDK) or Native SDK on top of Mobile Services</td>
+        <td>Built-in offline-first architecture. Already in use at Pelican for Plant Maintenance. Background sync with SAP on reconnection.</td>
+      </tr>
+      <tr>
+        <td class="rlab">Multi-Site Localisation</td>
+        <td>Supported but manual per locale</td>
+        <td>Each locale requires separate configuration, testing, and deployment</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="frame-box">
+    <div class="flabel">Summary</div>
+    <p>Custom Fiori development does not require EHP8 — it can begin today. EHP8 expands the range of standard Fiori apps available, but as the analysis below shows, no standard Fiori app meets the requirements of ZPP_CONF2. The real question is therefore what a custom Fiori build costs to deliver, maintain, and upgrade — compared to Neptune.</p>
+  </div>
+</div>
+
+<!-- HEAD TO HEAD -->
+<div class="section">
+  <div class="section-eyebrow">Platform Comparison</div>
+  <div class="section-title">Neptune DXP vs. Standard Fiori — Head to Head</div>
+  <p class="section-intro">Evaluated against Pelican's specific requirements for ZPP_CONF2: a browser-based web app on touch-enabled devices, ECC compatibility, global localisation, and internal maintainability.</p>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th style="width:20%">Area</th>
+        <th style="width:40%">Standard Fiori (Custom Build)</th>
+        <th style="width:40%">Neptune DXP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="rlab">Licensing Cost</td>
+        <td class="fiori"><span class="pill-good">$0 licence</span><br>Development, BTP services and maintenance are real and ongoing</td>
+        <td class="neptune"><span class="pill-warn">~$57,500/yr · 300 users</span><br>Flat, predictable — all capabilities included</td>
+      </tr>
+      <tr>
+        <td class="rlab">Custom UX Development</td>
+        <td class="fiori">3 specialist roles: ABAP/OData, UI5 frontend, SDK/deployment. Hand-coded XML and JS.</td>
+        <td class="neptune">Single ABAP developer end-to-end. Visual App Designer + AI assistant. No OData rebuild.</td>
+      </tr>
+      <tr>
+        <td class="rlab">Reuse of Existing ABAP</td>
+        <td class="fiori"><span class="cross">✗</span> ZPP_CONF2 logic must be rebuilt as OData/CDS views — significant effort and risk</td>
+        <td class="neptune"><span class="tick">✓</span> Existing ABAP exposed as REST APIs directly. Proven logic reused as-is.</td>
+      </tr>
+      <tr>
+        <td class="rlab">ECC Compatibility</td>
+        <td class="fiori"><span class="part">~</span> Custom Fiori development is possible on ECC but optimised for S/4HANA. EHP8 expands standard apps but none meet ZPP_CONF2 requirements.</td>
+        <td class="neptune"><span class="tick">✓</span> SAP-certified ABAP add-on. Installs directly into ECC. No external infrastructure.</td>
+      </tr>
+      <tr>
+        <td class="rlab">Time to Live</td>
+        <td class="fiori">4–6+ months for a custom build: OData rebuild, UI development, test and multi-site rollout</td>
+        <td class="neptune">2–3 months. Starts on current ECC today.</td>
+      </tr>
+      <tr>
+        <td class="rlab">Upgrade Risk (S/4)</td>
+        <td class="fiori">Custom ABAP/OData must be rewritten and revalidated at every upgrade cycle</td>
+        <td class="neptune">Neptune sits outside SAP core. Apps migrate cleanly. No rework at S/4 transition.</td>
+      </tr>
+      <tr>
+        <td class="rlab">Ongoing Maintenance</td>
+        <td class="fiori">Each custom app is its own codebase. Specialist required for every change.</td>
+        <td class="neptune">Standardised framework. Pelican's team maintains and modifies apps without external help.</td>
+      </tr>
+      <tr>
+        <td class="rlab">Licensing Model</td>
+        <td class="fiori">BTP consumption-based: API calls, memory, tenants. Costs increase as usage scales.</td>
+        <td class="neptune">Named user model. All capabilities included from day one. No surprise overruns.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- REQUIREMENTS TABLE -->
+<div class="section">
+  <div class="section-eyebrow">Requirements Analysis</div>
+  <div class="section-title">Pelican's ZPP_CONF2 Requirements vs. What Each Platform Delivers</div>
+  <p class="section-intro">This is the decisive table. Standard Fiori's production confirmation apps meet the basic requirements — but Pelican's actual ZPP_CONF2 requirements go significantly beyond that. Every gap in Fiori's coverage represents either a custom development project or a capability Pelican simply goes without.</p>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th style="width:52%">Requirement (from Pelican documentation)</th>
+        <th style="width:24%;text-align:center">Standard Fiori<br>Production Confirmation</th>
+        <th style="width:24%;text-align:center">Neptune DXP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Basic production confirmations</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td>Partial &amp; final confirmations</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td>Mobile / tablet access</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Start / Pause / Resume timers</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Background actual time tracking</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Multiple orders from a single screen</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Setup time tracking</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Labor &amp; machine time capture / calculations</strong></td>
+        <td style="text-align:center;font-size:16px">⚠️ <span style="font-size:11px;color:var(--warn)">Partial</span></td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Linked molding &amp; assembly orders</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Auto-confirm linked orders</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Scrap handling with reason codes</strong></td>
+        <td style="text-align:center;font-size:16px">⚠️ <span style="font-size:11px;color:var(--warn)">Partial</span></td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Label printing (Part / MPK)</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Move ticket printing</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Backflush quantity adjustments before posting</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Pause reason codes</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Overrun warnings &amp; reason capture</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Plant / work-centre specific business logic</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout-dark">
+    <p>Standard Fiori covers <strong>3 of 17 requirements</strong> out of the box. The remaining 14 — including the capabilities most critical to Pelican's production accuracy problem — either require custom development on top of Fiori, or are not achievable within the standard Fiori framework at all. Every ❌ is either a custom build cost or a missing capability.</p>
+  </div>
+</div>
+
+<!-- COST & SPEED -->
+<div class="section">
+  <div class="section-eyebrow">Total Cost of Ownership</div>
+  <div class="section-title">What the Numbers Actually Show</div>
+  <p class="section-intro">Two lenses: what SAP's own BTP pricing reveals, and a 3-year TCO estimate for Pelican's specific use case.</p>
+
+  <div class="btp-highlight">
+    <div>
+      <div class="big-num">$398K+</div>
+      <div class="big-sub">per year · 1 app · 1,000 users</div>
+    </div>
+    <div class="btp-desc">
+      Based on SAP's own Discovery Centre service estimator, licensing a <strong>single BTP Build App for 1,000 users</strong> — including SAP Build Apps (~$3,380/mo), Mobile Services (~$3,510/mo), Cloud Foundry Runtime (~$2,940/mo), Integration Suite (~$5,005/mo), and Identity Services (~$18,360/mo) — totals approximately <strong>$33,195/month</strong>. Fiori is not free once you account for the services needed to make it functional at scale. <em style="font-size:11px;color:var(--muted)">(EUR figures from SAP Discovery Centre, converted at ~1.08 USD/EUR)</em>
+    </div>
+  </div>
+
+  <div class="cost-grid">
+    <div class="cost-card">
+      <div class="cost-card-header fiori">Standard Fiori — Custom Build Path</div>
+      <div class="cost-card-body">
+        <div class="cost-row"><span class="cl">Licence (EHP8 included)</span><span class="cv">$0</span></div>
+        <div class="cost-row"><span class="cl">Custom implementation (3 specialists)</span><span class="cv">$100K–$150K</span></div>
+        <div class="cost-row"><span class="cl">External developer costs for changes &amp; enhancements post go-live</span><span class="cv">$60K–$100K</span></div>
+        <div class="cost-row"><span class="cl">Upgrade revalidation at S/4 transition</span><span class="cv">$40K–$80K</span></div>
+      </div>
+      <div class="cost-total fiori"><span>3-Year Indicative Total</span><span>$200K–$330K</span></div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-card-header neptune">Neptune DXP</div>
+      <div class="cost-card-body">
+        <div class="cost-row"><span class="cl">Licence — 300 users × 3 years</span><span class="cv">~$172K</span></div>
+        <div class="cost-row"><span class="cl">Implementation (PropelUX or Neptune PS)</span><span class="cv">$30K–$45K</span></div>
+        <div class="cost-row"><span class="cl">Changes &amp; enhancements handled by Pelican's existing ABAP team — no specialist contractor required</span><span class="cv">$0–$15K</span></div>
+        <div class="cost-row"><span class="cl">Upgrade revalidation</span><span class="cv" style="color:var(--good)">Minimal</span></div>
+      </div>
+      <div class="cost-total neptune"><span>3-Year Indicative Total</span><span>$205K–$235K</span></div>
+    </div>
+  </div>
+
+  <!-- SPEED -->
+  <div class="section-eyebrow" style="margin-top:28px">Development Speed</div>
+  <div class="section-title" style="font-size:18px">How Long Does Each Path Actually Take?</div>
+  <p class="section-intro">The production confirmation problem exists today. Every month it continues costs supervisory time, reporting accuracy, and operator confidence.</p>
+
+  <div class="speed-compare">
+    <div class="speed-card fiori-s">
+      <h4>Standard Fiori Path</h4>
+      <div class="speed-phase"><span class="ph-label">Backend prep</span><span class="ph-val">OData/CDS rebuild — 6–10 weeks</span></div>
+      <div class="speed-phase"><span class="ph-label">UI development</span><span class="ph-val">Hand-coded XML/JS — 8–14 weeks</span></div>
+      <div class="speed-phase"><span class="ph-label">Test and rollout</span><span class="ph-val">Per-site testing and config</span></div>
+      <div class="speed-total slow">Estimated go-live: 4–6+ months</div>
+    </div>
+    <div class="speed-card neptune-s">
+      <h4>Neptune Path</h4>
+      <div class="speed-phase"><span class="ph-label">Backend prep</span><span class="ph-val">REST API on existing ABAP — 1–2 weeks</span></div>
+      <div class="speed-phase"><span class="ph-label">UI development</span><span class="ph-val">Visual App Designer + AI — 3–5 weeks</span></div>
+      <div class="speed-phase"><span class="ph-label">Test and rollout</span><span class="ph-val">Centralised localisation framework</span></div>
+      <div class="speed-total fast">Estimated go-live: 2–3 months from agreement</div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- DIFFERENTIATORS -->
+<div class="section">
+  <div class="section-eyebrow">Why Neptune for This Use Case</div>
+  <div class="section-title">Six Capabilities Directly Relevant to Pelican</div>
+
+  <div class="diff-grid">
+    <div class="diff-card">
+      <div class="diff-num">01</div>
+      <h4>No ABAP Rebuild Required</h4>
+      <p>ZPP_CONF2 logic stays intact. Neptune exposes existing ABAP as REST APIs. Fiori requires rebuilding it as OData — costly and risky for proven business logic.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-num">02</div>
+      <h4>One Developer, End to End</h4>
+      <p>Neptune's App Designer lets a single ABAP developer handle the full build. Standard Fiori requires three specialist roles: ABAP/OData, UI5 frontend, and SDK/deployment.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-num">03</div>
+      <h4>Offline and Mobile — Already Proven at Pelican</h4>
+      <p>Neptune's offline-first mobile capability is already live at Pelican for Plant Maintenance. Advanced mobile features in Fiori — offline, native device integration, push notifications — require SAP Mobile Services or another mobile framework on top of the base licence.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-num">04</div>
+      <h4>ECC Compatible Today</h4>
+      <p>Neptune installs into ECC as a certified ABAP add-on. Development starts now, independent of EHP8, and migrates cleanly to whatever SAP version Pelican lands on.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-num">05</div>
+      <h4>Predictable Cost at Scale</h4>
+      <p>Neptune charges by named user. Everything included. BTP charges by API calls, memory, tenants, and services — costs increase as usage scales, making forecasting difficult.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-num">06</div>
+      <h4>Internal Team Can Own It</h4>
+      <p>Neptune's standardised framework means Pelican's team maintains and changes the app without external consultants for routine updates. Custom Fiori apps require specialist upkeep indefinitely.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PROOF POINTS -->
+<div class="section">
+  <div class="section-eyebrow">Customer Evidence</div>
+  <div class="section-title">Outcomes from Comparable Deployments</div>
+
+  <div class="proof-grid">
+    <div class="proof-card">
+      <div class="proof-sector">Manufacturing · Mobile Workforce · Hybrid Infrastructure</div>
+      <h4>Large-Scale Mobile Deployment</h4>
+      <ul>
+        <li>10,000+ devices supported with consistent app performance</li>
+        <li>23M+ API calls daily without cloud service dependency</li>
+        <li>Containerised hybrid architecture alongside ECC</li>
+        <li>Avoided BTP lock-in; reduced infrastructure cost</li>
+      </ul>
+    </div>
+    <div class="proof-card">
+      <div class="proof-sector">Logistics · Shop Floor · REST Integration</div>
+      <h4>Mobile App Built in 8 Weeks</h4>
+      <ul>
+        <li>Deployed mobile-ready SAP app in 8 weeks from kickoff</li>
+        <li>300% increase in logistics efficiency vs. legacy solution</li>
+        <li>Existing ABAP reused directly — no OData rebuild</li>
+        <li>Internal team owns and maintains the codebase</li>
+      </ul>
+    </div>
+    <div class="proof-card">
+      <div class="proof-sector">Development Velocity · SAP ECC</div>
+      <h4>Development Cycles: 9 Months → 2 Weeks</h4>
+      <ul>
+        <li>Single ABAP developer + business user built apps end-to-end</li>
+        <li>Reused SAP-native logic; no additional infrastructure approvals</li>
+        <li>Small teams self-developed without cross-department dependency</li>
+        <li>Business decisions made on current data, not outdated reports</li>
+      </ul>
+    </div>
+    <div class="proof-card">
+      <div class="proof-sector">Enterprise · Predictable Licensing</div>
+      <h4>18,000 Users — Break-Even in 90 Days</h4>
+      <ul>
+        <li>Moved from SAP Cloud Platform (unpredictable cost) to Neptune</li>
+        <li>900 hours/month saved in administrative time</li>
+        <li>Fixed-cost model replaced consumption-based BTP pricing</li>
+        <li>ROI achieved within 90 days of go-live</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- EVALUATION PATH -->
+<div class="section">
+  <div class="section-eyebrow">Proposed Next Steps</div>
+  <div class="section-title">This Is the TCO Analysis — Here's What We Do With It</div>
+  <p class="section-intro">The numbers in this document are directional. The three steps below turn them into figures Pelican can actually defend internally — grounded in your real costs, your team, and your specific use case.</p>
+
+  <div class="eval-grid">
+    <div class="eval-step">
+      <div class="eval-num">01</div>
+      <h4>TCO Validation Session</h4>
+      <p>45 minutes to apply the cost framework to Pelican's actual development costs, internal resource capacity, and site count. Produces numbers grounded in your real inputs.</p>
+    </div>
+    <div class="eval-step">
+      <div class="eval-num">02</div>
+      <h4>PropelUX Scoping Session</h4>
+      <p>Complimentary half-day (virtual or on-site) to scope ZPP_CONF2 in detail — requirements, gaps, and a concrete build estimate. No commitment required.</p>
+    </div>
+    <div class="eval-step">
+      <div class="eval-num">03</div>
+      <h4>Fiori Feasibility Check</h4>
+      <p>In parallel: assess what a Fiori path requires for this specific use case — staffing, timeline, BTP services for mobile. Creates a like-for-like basis for comparison.</p>
+    </div>
+  </div>
+
+  <div class="frame-box">
+    <div class="flabel">Our Commitment</div>
+    <p>We will provide the TCO analysis, competitive detail, and implementation scoping needed to support a well-informed decision. If Fiori is the right answer for this use case, we will say so. If Neptune is, we want to earn that conclusion rather than assume it.</p>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <strong>Neptune Software</strong>
+      Prepared for Pelican Products · June 2026<br>
+      <span style="font-size:11px;color:rgba(255,255,255,0.3)">Indicative information only. Does not represent a binding commitment.</span>
+    </div>
+    <div>
+      <strong>Bobby Neary · Account Executive</strong>
+      m: 916.847.3971<br>bobby.neary@neptune-software.com
+    </div>
+    <div>
+      <strong>Duncan Aird · Customer Success Manager</strong>
+      m: 832.420.5188<br>duncan.aird@neptune-software.com
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
