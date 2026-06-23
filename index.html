@@ -504,6 +504,114 @@
   </table>
 </div>
 
+<!-- REQUIREMENTS TABLE -->
+<div class="section">
+  <div class="section-eyebrow">Requirements Analysis</div>
+  <div class="section-title">Pelican's ZPP_CONF2 Requirements vs. What Each Platform Delivers</div>
+  <p class="section-intro">This is the decisive table. Standard Fiori's production confirmation apps meet the basic requirements — but Pelican's actual ZPP_CONF2 requirements go significantly beyond that. Every gap in Fiori's coverage represents either a custom development project or a capability Pelican simply goes without.</p>
+
+  <table class="dt">
+    <thead>
+      <tr>
+        <th style="width:52%">Requirement (from Pelican documentation)</th>
+        <th style="width:24%;text-align:center">Standard Fiori<br>Production Confirmation</th>
+        <th style="width:24%;text-align:center">Neptune DXP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Basic production confirmations</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td>Partial &amp; final confirmations</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td>Mobile / tablet access</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Start / Pause / Resume timers</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Background actual time tracking</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Multiple orders from a single screen</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Setup time tracking</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Labor &amp; machine time capture / calculations</strong></td>
+        <td style="text-align:center;font-size:16px">⚠️ <span style="font-size:11px;color:var(--warn)">Partial</span></td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Linked molding &amp; assembly orders</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Auto-confirm linked orders</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Scrap handling with reason codes</strong></td>
+        <td style="text-align:center;font-size:16px">⚠️ <span style="font-size:11px;color:var(--warn)">Partial</span></td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Label printing (Part / MPK)</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Move ticket printing</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Backflush quantity adjustments before posting</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Pause reason codes</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Overrun warnings &amp; reason capture</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+      <tr>
+        <td><strong>Plant / work-centre specific business logic</strong></td>
+        <td style="text-align:center;font-size:16px">❌</td>
+        <td style="text-align:center;font-size:16px">✅</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout-dark">
+    <p>Standard Fiori covers <strong>3 of 17 requirements</strong> out of the box. The remaining 14 — including the capabilities most critical to Pelican's production accuracy problem — either require custom development on top of Fiori, or are not achievable within the standard Fiori framework at all. Every ❌ is either a custom build cost or a missing capability.</p>
+  </div>
+</div>
+
 <!-- COST & SPEED -->
 <div class="section">
   <div class="section-eyebrow">Total Cost of Ownership</div>
@@ -526,7 +634,7 @@
       <div class="cost-card-body">
         <div class="cost-row"><span class="cl">Licence (EHP8 included)</span><span class="cv">$0</span></div>
         <div class="cost-row"><span class="cl">Custom implementation (3 specialists)</span><span class="cv">$100K–$150K</span></div>
-        <div class="cost-row"><span class="cl">Ongoing maintenance and changes</span><span class="cv">$60K–$100K</span></div>
+        <div class="cost-row"><span class="cl">External developer costs for changes &amp; enhancements post go-live</span><span class="cv">$60K–$100K</span></div>
         <div class="cost-row"><span class="cl">Upgrade revalidation at S/4 transition</span><span class="cv">$40K–$80K</span></div>
       </div>
       <div class="cost-total fiori"><span>3-Year Indicative Total</span><span>$200K–$330K</span></div>
@@ -536,14 +644,12 @@
       <div class="cost-card-body">
         <div class="cost-row"><span class="cl">Licence — 300 users × 3 years</span><span class="cv">~$172K</span></div>
         <div class="cost-row"><span class="cl">Implementation (PropelUX or Neptune PS)</span><span class="cv">$30K–$45K</span></div>
-        <div class="cost-row"><span class="cl">Ongoing maintenance (internal team)</span><span class="cv">$15K–$25K</span></div>
+        <div class="cost-row"><span class="cl">Changes &amp; enhancements handled by Pelican's existing ABAP team — no specialist contractor required</span><span class="cv">$0–$15K</span></div>
         <div class="cost-row"><span class="cl">Upgrade revalidation</span><span class="cv" style="color:var(--good)">Minimal</span></div>
       </div>
-      <div class="cost-total neptune"><span>3-Year Indicative Total</span><span>$220K–$245K</span></div>
+      <div class="cost-total neptune"><span>3-Year Indicative Total</span><span>$205K–$235K</span></div>
     </div>
   </div>
-
-  <div class="caveat"><strong>Important caveat:</strong> If Pelican has available, cost-effective ABAP development capacity internally, the Fiori implementation cost shifts down meaningfully. The TCO advantage for Neptune is most pronounced when development is outsourced or when internal resources are constrained. Maintenance and upgrade revalidation costs remain relevant regardless.</div>
 
   <!-- SPEED -->
   <div class="section-eyebrow" style="margin-top:28px">Development Speed</div>
